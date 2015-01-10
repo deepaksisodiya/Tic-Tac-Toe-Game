@@ -146,6 +146,18 @@ Game.prototype = {
     var dataStore = localStorage.getItem("dataStore");
     var turn = localStorage.getItem("turn");
     var size = localStorage.getItem("size");
+    var arr = dataStore.split(",");
+    var newDataStore = [];
+    var rowData = [];
+    for(var i=1; i<=arr.length; i++) {
+      rowData.push(arr[i-1]);
+      if(i % this.size === 0) {
+        newDataStore.push(rowData);
+        rowData = [];
+      }
+    }
+    this.dataStore = newDataStore;
+    this.render();
   }
 
 };
