@@ -65,14 +65,14 @@ Game.prototype = {
 
   checkWin: function (turn) {
 
-    for (var a = 0; a < this.size; a++) {
+    for (var a = 0; a < parseInt(this.size); a++) {
       var increment = 0;
       var row = this.dataStore[a];
-      for (var cell = 0; cell < this.size; cell++) {
+      for (var cell = 0; cell < parseInt(this.size); cell++) {
         if (row[cell] === turn) {
           increment++;
         }
-        if (increment === this.size) {
+        if (increment === parseInt(this.size)) {
           alert(turn + " Win");
           this.startGame();
           return false;
@@ -80,14 +80,14 @@ Game.prototype = {
       }
     }
 
-    for (var e = 0; e < this.size; e++) {
+    for (var e = 0; e < parseInt(this.size); e++) {
       var columnArray = this.getColumns(e);
       var increment = 0;
-      for (var cell = 0; cell < this.size; cell++) {
+      for (var cell = 0; cell < parseInt(this.size); cell++) {
         if (columnArray[cell] === turn) {
           increment++;
         }
-        if (increment === this.size) {
+        if (increment === parseInt(this.size)) {
           alert(turn + " Win");
           this.startGame();
           return false;
@@ -96,12 +96,12 @@ Game.prototype = {
     }
 
     var increment = 0;
-    for (var a = 0; a < this.size; a++) {
+    for (var a = 0; a < parseInt(this.size); a++) {
       var row = this.dataStore[a];
       if (row[a] === turn) {
         increment++;
       }
-      if (increment === this.size) {
+      if (increment === parseInt(this.size)) {
         alert(turn + " Win");
         this.startGame();
         return false;
@@ -109,14 +109,14 @@ Game.prototype = {
     }
 
     var increment2 = 0;
-    var rowLength = this.size;
-    for (var f = 0; f < this.size; f++) {
+    var rowLength = parseInt(this.size);
+    for (var f = 0; f < parseInt(this.size); f++) {
       var row = this.dataStore[f];
 
       if (row[rowLength - 1] === turn) {
         increment2++;
       }
-      if (increment2 === this.size) {
+      if (increment2 === parseInt(this.size)) {
         alert(turn + " Win");
         this.startGame();
         return false;
@@ -128,7 +128,7 @@ Game.prototype = {
 
   getColumns: function (colNumber) {
     var columnArray = [];
-    for (var d = 0; d < this.size; d++) {
+    for (var d = 0; d < parseInt(this.size); d++) {
       var row = this.dataStore[d][colNumber];
       columnArray.push(row);
     }
@@ -140,7 +140,7 @@ Game.prototype = {
     var table = document.createElement("table");
     table.setAttribute("border", "1px solid black");
     table.setAttribute("id", "board");
-    for (var g = 0; g < this.size; g++) {
+    for (var g = 0; g < parseInt(this.size); g++) {
       var tr = document.createElement("tr");
       table.appendChild(tr);
       var row = this.dataStore[g];
@@ -188,10 +188,10 @@ Game.prototype = {
 };
 
 Game.prototype.constructor = Game;
-
+var gameObj;
 window.onload = function () {
   document.getElementById("restart").style.display = "none";
-  var gameObj;
+
   document.getElementById("submit").onclick = function () {
     var size = document.getElementById("size").value;
     if(size >= 3 && size <= 100) {
@@ -204,5 +204,11 @@ window.onload = function () {
   };
   document.getElementById("restart").onclick = function () {
     gameObj.startGame();
+  };
+  document.getElementById("save").onclick = function () {
+    gameObj.saveGameToLocalStorage();
+  };
+  document.getElementById("load").onclick = function () {
+    gameObj.loadGameFromLocalStorage();
   };
 };
