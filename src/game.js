@@ -17,6 +17,7 @@ Game.prototype = {
   },
 
   startGame: function () {
+    this.turn = "X";
     this.moves = 0;
     this.dataStore = [];
     for (var j = 0; j < this.size; j++) {
@@ -189,13 +190,17 @@ Game.prototype = {
 Game.prototype.constructor = Game;
 
 window.onload = function () {
+  var gameObj;
   document.getElementById("submit").onclick = function () {
     var size = document.getElementById("size").value;
     if(size >= 3 && size <= 100) {
-      var gameObj = new Game([],size,"X");
+      gameObj = new Game([],size,"X");
       gameObj.startGame();
     }else{
       alert("Please Enter Size Between 3 to 100");
     }
+  }
+  document.getElementById("restart").onclick = function () {
+    gameObj.startGame();
   }
 };
