@@ -121,6 +121,7 @@ Game.prototype = {
   },
 
   render: function () {
+    var self = this;
     var table = document.createElement("table");
     table.setAttribute("border", "1px solid black");
     table.setAttribute("id", "board");
@@ -133,6 +134,11 @@ Game.prototype = {
         td.width = td.height = 50;
         td.align = td.vAlign = "center";
         td.innerHTML = row[h];
+        td.onclick = (function(g,h) {
+          return function() {
+            self.mark(g,h);
+          }
+        })(g+1, h+1);
         tr.appendChild(td);
       }
       document.getElementById("tictactoe").innerHTML = "";
