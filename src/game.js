@@ -35,7 +35,6 @@ Game.prototype = {
       this.dataStore[rowNumber - 1][columnNumber - 1] = this.turn;
       this.render();
       this.checkWin(this.turn);
-      this.changePlayer(this.turn);
       this.moves = this.moves + 1;
       this.checkForDraw();
       return true;
@@ -123,7 +122,7 @@ Game.prototype = {
       }
       rowLength--;
     }
-
+    this.changePlayer(this.turn);
   },
 
   getColumns: function (colNumber) {
