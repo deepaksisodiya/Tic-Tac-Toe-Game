@@ -188,6 +188,14 @@ Game.prototype = {
 
 Game.prototype.constructor = Game;
 
-
-var gameObj = new Game([], 3, "X");
-gameObj.startGame();
+window.onload = function () {
+  document.getElementById("submit").onclick = function () {
+    var size = document.getElementById("size").value;
+    if(size >= 3 && size <= 100) {
+      var gameObj = new Game([],size,"X");
+      gameObj.startGame();
+    }else{
+      alert("Please Enter Size Between 3 to 100");
+    }
+  }
+};
