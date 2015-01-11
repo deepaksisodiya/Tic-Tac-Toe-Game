@@ -190,17 +190,19 @@ Game.prototype = {
 Game.prototype.constructor = Game;
 
 window.onload = function () {
+  document.getElementById("restart").style.display = "none";
   var gameObj;
   document.getElementById("submit").onclick = function () {
     var size = document.getElementById("size").value;
     if(size >= 3 && size <= 100) {
       gameObj = new Game([],size,"X");
       gameObj.startGame();
+      document.getElementById("restart").style.display = "block";
     }else{
       alert("Please Enter Size Between 3 to 100");
     }
-  }
+  };
   document.getElementById("restart").onclick = function () {
     gameObj.startGame();
-  }
+  };
 };
