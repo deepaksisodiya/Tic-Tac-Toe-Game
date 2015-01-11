@@ -7,6 +7,7 @@ function Game(dataStore, size, turn) {
   this.dataStore = dataStore;
   this.size= size;
   this.turn = turn;
+  this.moves = 0;
 }
 
 Game.prototype = {
@@ -16,6 +17,7 @@ Game.prototype = {
   },
 
   startGame: function () {
+    this.moves = 0;
     this.dataStore = [];
     for (var j = 0; j < this.size; j++) {
       var x = [];
@@ -33,6 +35,18 @@ Game.prototype = {
       this.render();
       this.checkWin(this.turn);
       this.changePlayer(this.turn);
+      this.moves = this.moves + 1;
+      this.checkForDraw();
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  checkForDraw : function () {
+    if(this.moves === this.size*this.size) {
+      alert("Game Draw");
+      this.startGame();
       return true;
     } else {
       return false;
