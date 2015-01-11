@@ -187,17 +187,18 @@ Game.prototype = {
 };
 
 Game.prototype.constructor = Game;
-var gameObj;
-window.onload = function () {
-  document.getElementById("restart").style.display = "none";
 
+window.onload = function () {
+  var gameObj;
   document.getElementById("submit").onclick = function () {
     var size = document.getElementById("size").value;
-    if(size >= 3 && size <= 100) {
-      gameObj = new Game([],size,"X");
+    if (size >= 3 && size <= 100) {
+      gameObj = new Game([], size, "X");
       gameObj.startGame();
       document.getElementById("restart").style.display = "block";
-    }else{
+      document.getElementById("save").style.display = "block";
+      document.getElementById("load").style.display = "block";
+    } else {
       alert("Please Enter Size Between 3 to 100");
     }
   };
