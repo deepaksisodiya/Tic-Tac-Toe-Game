@@ -28,11 +28,15 @@ Game.prototype = {
   },
 
   mark: function (rowNumber, columnNumber) {
-    this.dataStore[rowNumber - 1][columnNumber - 1] = this.turn;
-    this.render();
-    this.checkWin(this.turn);
-    this.changePlayer(this.turn);
-    return true;
+    if(this.dataStore[rowNumber - 1][columnNumber - 1] === " ") {
+      this.dataStore[rowNumber - 1][columnNumber - 1] = this.turn;
+      this.render();
+      this.checkWin(this.turn);
+      this.changePlayer(this.turn);
+      return true;
+    } else {
+      return false;
+    }
   },
 
   changePlayer: function (turn) {
