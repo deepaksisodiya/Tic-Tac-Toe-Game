@@ -8,13 +8,10 @@ function Game(dataStore, size, turn) {
   this.size= size;
   this.turn = turn;
   this.moves = 0;
+  this.startGame();
 }
 
 Game.prototype = {
-
-  setBoardSize: function (n) {
-    this.size = n;
-  },
 
   startGame: function () {
     this.turn = "X";
@@ -27,14 +24,13 @@ Game.prototype = {
       }
       this.dataStore.push(x);
     }
-    this.render();
   },
 
-  mark: function (rowNumber, columnNumber) {
+  mark: function (rowNumber, columnNumber, obj) {
     if(this.dataStore[rowNumber - 1][columnNumber - 1] === " ") {
       this.dataStore[rowNumber - 1][columnNumber - 1] = this.turn;
-      this.render();
-      this.checkWin(this.turn);
+      obj.render();
+      this.checkWin(this.turn, obj);
       this.moves = this.moves + 1;
       this.checkForDraw();
       return true;
@@ -62,7 +58,7 @@ Game.prototype = {
     }
   },
 
-  checkWin: function (turn) {
+  checkWin: function (turn, obj) {
 
     for (var a = 0; a < parseInt(this.size); a++) {
       var increment = 0;
@@ -74,6 +70,7 @@ Game.prototype = {
         if (increment === parseInt(this.size)) {
           alert(turn + " Win");
           this.startGame();
+          obj.render();
           return false;
         }
       }
@@ -89,6 +86,7 @@ Game.prototype = {
         if (increment === parseInt(this.size)) {
           alert(turn + " Win");
           this.startGame();
+          obj.render();
           return false;
         }
       }
@@ -103,6 +101,7 @@ Game.prototype = {
       if (increment === parseInt(this.size)) {
         alert(turn + " Win");
         this.startGame();
+        obj.render();
         return false;
       }
     }
@@ -118,6 +117,7 @@ Game.prototype = {
       if (increment2 === parseInt(this.size)) {
         alert(turn + " Win");
         this.startGame();
+        obj.render();
         return false;
       }
       rowLength--;
@@ -132,32 +132,6 @@ Game.prototype = {
       columnArray.push(row);
     }
     return columnArray;
-  },
-
-  render: function () {
-    var self = this;
-    var table = document.createElement("table");
-    table.setAttribute("border", "1px solid black");
-    table.setAttribute("id", "board");
-    for (var g = 0; g < parseInt(this.size); g++) {
-      var tr = document.createElement("tr");
-      table.appendChild(tr);
-      var row = this.dataStore[g];
-      for (var h = 0; h < row.length; h++) {
-        var td = document.createElement("td");
-        td.width = td.height = 50;
-        td.align = td.vAlign = "center";
-        td.innerHTML = row[h];
-        td.onclick = (function(g,h) {
-          return function() {
-            self.mark(g,h);
-          }
-        })(g+1, h+1);
-        tr.appendChild(td);
-      }
-      document.getElementById("tictactoe").innerHTML = "";
-      document.getElementById("tictactoe").appendChild(table);
-    }
   },
 
   saveGameToLocalStorage: function () {
@@ -175,40 +149,16 @@ Game.prototype = {
     var rowData = [];
     for(var i=1; i<=arr.length; i++) {
       rowData.push(arr[i-1]);
-      if(i % this.size === 0) {
+      if(i % size === 0) {
         newDataStore.push(rowData);
         rowData = [];
       }
     }
     this.dataStore = newDataStore;
-    this.render();
+    this.size = size;
+    this.turn = turn;
   }
 
 };
 
 Game.prototype.constructor = Game;
-
-window.onload = function () {
-  var gameObj;
-  document.getElementById("submit").onclick = function () {
-    var size = document.getElementById("size").value;
-    if (size >= 3 && size <= 100) {
-      gameObj = new Game([], size, "X");
-      gameObj.startGame();
-      document.getElementById("restart").style.display = "block";
-      document.getElementById("save").style.display = "block";
-      document.getElementById("load").style.display = "block";
-    } else {
-      alert("Please Enter Size Between 3 to 100");
-    }
-  };
-  document.getElementById("restart").onclick = function () {
-    gameObj.startGame();
-  };
-  document.getElementById("save").onclick = function () {
-    gameObj.saveGameToLocalStorage();
-  };
-  document.getElementById("load").onclick = function () {
-    gameObj.loadGameFromLocalStorage();
-  };
-};
